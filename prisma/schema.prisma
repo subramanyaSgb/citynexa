@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+  PLOT
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PriceUnit {
+  LAKH
+  CRORE
+}
+
+enum AreaUnit {
+  SQFT
+  SQYD
+  SQMT
+}
+
+enum Furnishing {
+  UNFURNISHED
+  SEMI_FURNISHED
+  FULLY_FURNISHED
+}
+
+enum PossessionStatus {
+  READY_TO_MOVE
+  UNDER_CONSTRUCTION
+  UPCOMING
+}
+
+enum InquiryType {
+  GENERAL
+  PROPERTY_SPECIFIC
+  CALLBACK
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  FOLLOW_UP
+  CONVERTED
+  CLOSED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model Builder {
+  id              String     @id @default(cuid())
+  name            String
+  logoUrl         String?    @map("logo_url")
+  description     String?
+  websiteUrl      String?    @map("website_url")
+  totalProjects   Int        @default(0) @map("total_projects")
+  establishedYear Int?       @map("established_year")
+  isActive        Boolean    @default(true) @map("is_active")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @updatedAt @map("updated_at")
+  properties      Property[]
+
+  @@map("builders")
+}
+
+model Property {
+  id               String           @id @default(cuid())
+  title            String
+  slug             String           @unique
+  description      String?
+  propertyType     PropertyType     @map("property_type")
+  listingType      ListingType      @map("listing_type")
+  builderId        String           @map("builder_id")
+  builder          Builder          @relation(fields: [builderId], references: [id])
+  price            Float
+  priceUnit        PriceUnit        @map("price_unit")
+  carpetArea       Float?           @map("carpet_area")
+  carpetAreaUnit   AreaUnit?        @map("carpet_area_unit")
+  builtUpArea      Float?           @map("built_up_area")
+  bedrooms         Int?
+  bathrooms        Int?
+  floorNumber      Int?             @map("floor_number")
+  totalFloors      Int?             @map("total_floors")
+  facingDirection  String?          @map("facing_direction")
+  furnishing       Furnishing?
+  possessionStatus PossessionStatus @map("possession_status")
+  possessionDate   DateTime?        @map("possession_date")
+  amenities        Json             @default("[]")
+  address          String?
+  city             String           @default("Bangalore")
+  locality         String?
+  state            String           @default("Karnataka")
+  pincode          String?
+  latitude         Float?
+  longitude        Float?
+  reraNumber       String?          @map("rera_number")
+  isFeatured       Boolean          @default(false) @map("is_featured")
+  isActive         Boolean          @default(true) @map("is_active")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  images           PropertyImage[]
+  inquiries        Inquiry[]
+
+  @@map("properties")
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String   @map("property_id")
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  imageUrl   String   @map("image_url")
+  isPrimary  Boolean  @default(false) @map("is_primary")
+  sortOrder  Int      @default(0) @map("sort_order")
+
+  @@map("property_images")
+}
+
+model Inquiry {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  message     String?
+  propertyId  String?       @map("property_id")
+  property    Property?     @relation(fields: [propertyId], references: [id])
+  inquiryType InquiryType   @default(GENERAL) @map("inquiry_type")
+  status      InquiryStatus @default(NEW)
+  adminNotes  String?       @map("admin_notes")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("inquiries")
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  @@map("admin_users")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  text      String
+  rating    Int      @default(5)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("testimonials")
+}
