@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { Loader2 } from "lucide-react";
-import type { Property, Builder } from "@/generated/prisma/client";
+import type { Property, Builder, PropertyImage } from "@/generated/prisma/client";
 import { propertySchema, type PropertyFormData } from "@/lib/validations/property";
 import {
   BANGALORE_LOCALITIES,
@@ -44,15 +45,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ImageUpload, type UploadedImage } from "@/components/admin/image-upload";
 
 interface PropertyFormProps {
-  initialData?: Property & { builder: Builder };
+  initialData?: Property & { builder: Builder; images?: PropertyImage[] };
   builders: { id: string; name: string }[];
-  onSubmit: (data: PropertyFormData) => Promise<{ success: boolean; error?: string }>;
+  onSubmit: (
+    data: PropertyFormData,
+    images: UploadedImage[]
+  ) => Promise<{ success: boolean; error?: string }>;
 }
 
 export function PropertyForm({ initialData, builders, onSubmit }: PropertyFormProps) {
   const router = useRouter();
+
+  // Initialize images from existing property data
+  const [images, setImages] = useState<UploadedImage[]>(() => {
+    if (initialData?.images && initialData.images.length > 0) {
+      return initialData.images
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map((img) => ({
+          url: img.imageUrl,
+          isPrimary: img.isPrimary,
+        }));
+    }
+    return [];
+  });
 
   const form = useForm<PropertyFormData>({
     resolver: standardSchemaResolver(propertySchema),
@@ -95,7 +113,7 @@ export function PropertyForm({ initialData, builders, onSubmit }: PropertyFormPr
   const propertyType = form.watch("propertyType");
 
   async function handleSubmit(data: PropertyFormData) {
-    const result = await onSubmit(data);
+    const result = await onSubmit(data, images);
     if (result.success) {
       router.push("/admin/properties");
     } else {
@@ -862,9 +880,21 @@ export function PropertyForm({ initialData, builders, onSubmit }: PropertyFormPr
               )}
             />
 
-            {/* Image Upload Placeholder */}
-            <div className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
-              Image upload coming in Task 8
+            {/* Property Images */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none">
+                Property Images
+              </label>
+              <ImageUpload
+                value={images}
+                onChange={setImages}
+                bucket="property-images"
+                multiple
+                maxFiles={10}
+              />
+              <p className="text-xs text-muted-foreground">
+                Upload up to 10 images. Click the star icon to set the primary image.
+              </p>
             </div>
 
             {/* Featured Switch */}

@@ -87,7 +87,10 @@ export async function getProperty(id: string) {
   }
 }
 
-export async function createProperty(data: PropertyFormData): Promise<ActionResult> {
+export async function createProperty(
+  data: PropertyFormData,
+  images?: { url: string; isPrimary: boolean }[]
+): Promise<ActionResult> {
   try {
     const parsed = propertyServerSchema.safeParse(data);
     if (!parsed.success) {
@@ -113,6 +116,17 @@ export async function createProperty(data: PropertyFormData): Promise<ActionResu
         pincode: rest.pincode || null,
         reraNumber: rest.reraNumber || null,
         carpetAreaUnit: rest.carpetAreaUnit || null,
+        // Create property images if provided
+        images:
+          images && images.length > 0
+            ? {
+                create: images.map((img, index) => ({
+                  imageUrl: img.url,
+                  isPrimary: img.isPrimary,
+                  sortOrder: index,
+                })),
+              }
+            : undefined,
       },
     });
 
@@ -126,7 +140,8 @@ export async function createProperty(data: PropertyFormData): Promise<ActionResu
 
 export async function updateProperty(
   id: string,
-  data: PropertyFormData
+  data: PropertyFormData,
+  images?: { url: string; isPrimary: boolean }[]
 ): Promise<ActionResult> {
   try {
     const parsed = propertyServerSchema.safeParse(data);
@@ -136,21 +151,43 @@ export async function updateProperty(
 
     const { possessionDate, amenities, ...rest } = parsed.data;
 
-    await prisma.property.update({
-      where: { id },
-      data: {
-        ...rest,
-        amenities: amenities ?? [],
-        possessionDate: possessionDate ? new Date(possessionDate) : null,
-        description: rest.description || null,
-        facingDirection: rest.facingDirection || null,
-        furnishing: rest.furnishing || null,
-        address: rest.address || null,
-        locality: rest.locality || null,
-        pincode: rest.pincode || null,
-        reraNumber: rest.reraNumber || null,
-        carpetAreaUnit: rest.carpetAreaUnit || null,
-      },
+    // Update property and replace images in a transaction
+    await prisma.$transaction(async (tx) => {
+      // Update the property fields
+      await tx.property.update({
+        where: { id },
+        data: {
+          ...rest,
+          amenities: amenities ?? [],
+          possessionDate: possessionDate ? new Date(possessionDate) : null,
+          description: rest.description || null,
+          facingDirection: rest.facingDirection || null,
+          furnishing: rest.furnishing || null,
+          address: rest.address || null,
+          locality: rest.locality || null,
+          pincode: rest.pincode || null,
+          reraNumber: rest.reraNumber || null,
+          carpetAreaUnit: rest.carpetAreaUnit || null,
+        },
+      });
+
+      // If images were provided, delete existing and recreate
+      if (images !== undefined) {
+        await tx.propertyImage.deleteMany({
+          where: { propertyId: id },
+        });
+
+        if (images.length > 0) {
+          await tx.propertyImage.createMany({
+            data: images.map((img, index) => ({
+              propertyId: id,
+              imageUrl: img.url,
+              isPrimary: img.isPrimary,
+              sortOrder: index,
+            })),
+          });
+        }
+      }
     });
 
     revalidatePath("/admin/properties");

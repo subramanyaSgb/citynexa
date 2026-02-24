@@ -26,6 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ImageUpload, type UploadedImage } from "@/components/admin/image-upload";
 
 interface BuilderFormProps {
   initialData?: Builder;
@@ -41,6 +42,7 @@ export function BuilderForm({ initialData, onSubmit }: BuilderFormProps) {
       name: initialData?.name ?? "",
       description: initialData?.description ?? "",
       websiteUrl: initialData?.websiteUrl ?? "",
+      logoUrl: initialData?.logoUrl ?? null,
       totalProjects: initialData?.totalProjects ?? 0,
       establishedYear: initialData?.establishedYear ?? undefined,
       isActive: initialData?.isActive ?? true,
@@ -131,10 +133,37 @@ export function BuilderForm({ initialData, onSubmit }: BuilderFormProps) {
               )}
             />
 
-            {/* Logo Upload Placeholder */}
-            <div className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
-              Logo upload coming in Task 8
-            </div>
+            {/* Logo Upload */}
+            <FormField
+              control={form.control}
+              name="logoUrl"
+              render={({ field }) => {
+                const logoImages: UploadedImage[] = field.value
+                  ? [{ url: field.value, isPrimary: true }]
+                  : [];
+
+                return (
+                  <FormItem>
+                    <FormLabel>Logo</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={logoImages}
+                        onChange={(images: UploadedImage[]) => {
+                          field.onChange(images.length > 0 ? images[0].url : null);
+                        }}
+                        bucket="builder-logos"
+                        multiple={false}
+                        maxFiles={1}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Upload the builder&apos;s logo. JPEG, PNG, or WebP, max 5MB.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
 
             {/* Total Projects & Established Year */}
             <div className="grid gap-4 sm:grid-cols-2">

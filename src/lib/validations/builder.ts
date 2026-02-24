@@ -4,6 +4,7 @@ export const builderSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   websiteUrl: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
+  logoUrl: z.string().optional().nullable(),
   totalProjects: z.number().int().min(0, "Must be 0 or greater"),
   establishedYear: z
     .number()
@@ -21,6 +22,7 @@ export const builderServerSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   websiteUrl: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
+  logoUrl: z.string().optional().nullable(),
   totalProjects: z.coerce.number().int().min(0, "Must be 0 or greater").default(0),
   establishedYear: z.coerce
     .number()

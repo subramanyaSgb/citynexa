@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createProperty, getActiveBuilders } from "@/lib/actions/properties";
 import { PropertyForm } from "@/components/admin/property-form";
 import type { PropertyFormData } from "@/lib/validations/property";
+import type { UploadedImage } from "@/components/admin/image-upload";
 import { Loader2 } from "lucide-react";
 
 export default function NewPropertyPage() {
@@ -17,8 +18,8 @@ export default function NewPropertyPage() {
     });
   }, []);
 
-  async function handleSubmit(data: PropertyFormData) {
-    return await createProperty(data);
+  async function handleSubmit(data: PropertyFormData, images: UploadedImage[]) {
+    return await createProperty(data, images);
   }
 
   if (loading) {

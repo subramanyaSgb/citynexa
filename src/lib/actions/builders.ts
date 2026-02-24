@@ -54,12 +54,13 @@ export async function createBuilder(data: BuilderFormData): Promise<ActionResult
       return { success: false, error: parsed.error.issues[0]?.message ?? "Validation failed" };
     }
 
-    const { websiteUrl, ...rest } = parsed.data;
+    const { websiteUrl, logoUrl, ...rest } = parsed.data;
 
     await prisma.builder.create({
       data: {
         ...rest,
         websiteUrl: websiteUrl || null,
+        logoUrl: logoUrl || null,
       },
     });
 
@@ -81,13 +82,14 @@ export async function updateBuilder(
       return { success: false, error: parsed.error.issues[0]?.message ?? "Validation failed" };
     }
 
-    const { websiteUrl, ...rest } = parsed.data;
+    const { websiteUrl, logoUrl, ...rest } = parsed.data;
 
     await prisma.builder.update({
       where: { id },
       data: {
         ...rest,
         websiteUrl: websiteUrl || null,
+        logoUrl: logoUrl || null,
       },
     });
 
