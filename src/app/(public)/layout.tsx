@@ -5,13 +5,31 @@ import { ShortlistProvider } from "@/lib/shortlist-context";
 import { CompareProvider } from "@/lib/compare-context";
 import { CompareBar } from "@/components/property/compare-bar";
 import { getSetting } from "@/lib/actions/settings";
+import { MaintenancePage } from "@/components/common/maintenance-page";
 
 export default async function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const whatsappPhone = await getSetting("whatsapp_phone");
+  const [siteLive, shutdownDate, shutdownMessage, whatsappPhone] =
+    await Promise.all([
+      getSetting("site_live"),
+      getSetting("shutdown_date"),
+      getSetting("shutdown_message"),
+      getSetting("whatsapp_phone"),
+    ]);
+
+  // Check kill switch
+  const isKilled = siteLive === "false";
+
+  // Check scheduled shutdown
+  const isScheduledDown =
+    shutdownDate ? new Date(shutdownDate) <= new Date() : false;
+
+  if (isKilled || isScheduledDown) {
+    return <MaintenancePage message={shutdownMessage || undefined} />;
+  }
 
   return (
     <ShortlistProvider>
