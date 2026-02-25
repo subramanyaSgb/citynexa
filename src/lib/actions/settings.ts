@@ -153,7 +153,7 @@ export async function updateSiteControlSettings(
     );
 
     revalidatePath("/admin/site-control");
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
     console.error("Failed to update site control settings:", error);

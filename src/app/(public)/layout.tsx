@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Header } from "@/components/common/header";
 import { Footer } from "@/components/common/footer";
 import { WhatsAppButton } from "@/components/common/whatsapp-button";
@@ -13,6 +14,9 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Force dynamic rendering so kill switch and scheduled shutdown check on every request
+  await connection();
+
   const [siteLive, shutdownDate, shutdownMessage, whatsappPhone] =
     await Promise.all([
       getSetting("site_live"),
