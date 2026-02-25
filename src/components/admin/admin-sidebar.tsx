@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
   Shield,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,11 @@ export function AdminSidebar({ className }: { className?: string }) {
   const { data: session, status } = useSession();
 
   const allNavItems = session?.user?.role === "SUPER_ADMIN"
-    ? [...navItems, { label: "Site Control", href: "/admin/site-control", icon: Shield }]
+    ? [
+        ...navItems,
+        { label: "Users", href: "/admin/users", icon: Users },
+        { label: "Site Control", href: "/admin/site-control", icon: Shield },
+      ]
     : navItems;
 
   return (

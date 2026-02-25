@@ -34,6 +34,7 @@ function getPageTitle(pathname: string): string {
     inquiries: "Inquiries",
     testimonials: "Testimonials",
     settings: "Settings",
+    users: "Users",
     "site-control": "Site Control",
   };
 
