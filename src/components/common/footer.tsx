@@ -9,6 +9,7 @@ import {
   Instagram,
   Twitter,
 } from "lucide-react";
+import { getSettings } from "@/lib/actions/settings";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -24,14 +25,22 @@ const propertyTypes = [
   { label: "For Rent", href: "/properties?propertyType=rent" },
 ];
 
-const socialLinks = [
-  { label: "Facebook", href: "#", icon: Facebook },
-  { label: "LinkedIn", href: "#", icon: Linkedin },
-  { label: "Instagram", href: "#", icon: Instagram },
-  { label: "Twitter", href: "#", icon: Twitter },
-];
+const socialIcons = {
+  facebook: Facebook,
+  linkedin: Linkedin,
+  instagram: Instagram,
+  twitter: Twitter,
+} as const;
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSettings();
+
+  const socialLinks = [
+    { label: "Facebook", href: settings.facebook_url || "#", icon: socialIcons.facebook },
+    { label: "LinkedIn", href: settings.linkedin_url || "#", icon: socialIcons.linkedin },
+    { label: "Instagram", href: settings.instagram_url || "#", icon: socialIcons.instagram },
+    { label: "Twitter", href: settings.twitter_url || "#", icon: socialIcons.twitter },
+  ];
   return (
     <footer className="bg-warm-900 text-warm-300">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -116,24 +125,24 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-warm-400">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-warm-500" />
-                <span>Bangalore, Karnataka, India</span>
+                <span>{settings.company_address || "Bangalore, Karnataka, India"}</span>
               </li>
               <li>
                 <a
-                  href="tel:+91XXXXXXXXXX"
+                  href={`tel:${settings.company_phone || "+91XXXXXXXXXX"}`}
                   className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
                 >
                   <Phone className="size-4 shrink-0 text-warm-500" />
-                  <span>+91 XXXXXXXXXX</span>
+                  <span>{settings.company_phone || "+91 XXXXXXXXXX"}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@citynexa.com"
+                  href={`mailto:${settings.company_email || "info@citynexa.com"}`}
                   className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
                 >
                   <Mail className="size-4 shrink-0 text-warm-500" />
-                  <span>info@citynexa.com</span>
+                  <span>{settings.company_email || "info@citynexa.com"}</span>
                 </a>
               </li>
             </ul>
