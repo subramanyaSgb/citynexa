@@ -1,17 +1,28 @@
+import type { Metadata } from "next";
+import { HeroSection } from "@/components/home/hero-section";
+import { FeaturedProperties } from "@/components/home/featured-properties";
+import { BuilderPartners } from "@/components/home/builder-partners";
+import { WhyChooseUs } from "@/components/home/why-choose-us";
+import { StatsCounter } from "@/components/home/stats-counter";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { CTASection } from "@/components/home/cta-section";
+
+export const metadata: Metadata = {
+  title: "City Nexa Networks — Your Trusted Real Estate Partner in Bangalore",
+  description:
+    "Find your dream property in Bangalore with City Nexa Networks. Zero commission for buyers, expert guidance, and trusted builder partners. Browse 500+ premium residential, commercial properties and plots.",
+};
+
 export default function HomePage() {
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-primary">
-          City Nexa Networks
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Your Trusted Real Estate Partner in Bangalore
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Full homepage coming soon...
-        </p>
-      </div>
-    </div>
+    <>
+      <HeroSection />
+      <FeaturedProperties />
+      <BuilderPartners />
+      <WhyChooseUs />
+      <StatsCounter />
+      <TestimonialsSection />
+      <CTASection />
+    </>
   );
 }
