@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Save, Loader2 } from "lucide-react";
+import { Save, Loader2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { updateSettings, type SettingsMap } from "@/lib/actions/settings";
+import {
+  updateSettings,
+  changePassword,
+  type SettingsMap,
+} from "@/lib/actions/settings";
 
 interface SettingsFormProps {
   initialSettings: SettingsMap;
@@ -23,6 +27,16 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
   const [settings, setSettings] = useState<SettingsMap>(initialSettings);
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  // Password change state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPasswordPending, startPasswordTransition] = useTransition();
+  const [passwordMessage, setPasswordMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
@@ -45,7 +59,44 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     });
   }
 
+  function handlePasswordSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPasswordMessage(null);
+
+    if (newPassword.length < 6) {
+      setPasswordMessage({
+        type: "error",
+        text: "New password must be at least 6 characters.",
+      });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordMessage({
+        type: "error",
+        text: "New password and confirmation do not match.",
+      });
+      return;
+    }
+
+    startPasswordTransition(async () => {
+      const result = await changePassword(currentPassword, newPassword);
+      if (result.success) {
+        setPasswordMessage({
+          type: "success",
+          text: "Password changed successfully.",
+        });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        setPasswordMessage({ type: "error", text: result.error });
+      }
+    });
+  }
+
   return (
+    <div className="space-y-6">
     <form onSubmit={handleSubmit} className="space-y-6">
       {message && (
         <div
@@ -98,6 +149,22 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
               value={settings.company_email ?? ""}
               onChange={(e) => handleChange("company_email", e.target.value)}
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="notification_email">Notification Email</Label>
+            <Input
+              id="notification_email"
+              type="email"
+              placeholder="alerts@citynexa.com"
+              value={settings.notification_email ?? ""}
+              onChange={(e) =>
+                handleChange("notification_email", e.target.value)
+              }
+            />
+            <p className="text-xs text-muted-foreground">
+              Inquiry alerts will be sent here. Falls back to company email if
+              empty.
+            </p>
           </div>
           <div className="space-y-2 sm:col-span-2">
             <Label htmlFor="company_address">Address</Label>
@@ -204,5 +271,80 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
         </Button>
       </div>
     </form>
+
+    {/* Change Password */}
+    <form onSubmit={handlePasswordSubmit} className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Change Password</CardTitle>
+          <CardDescription>
+            Update your admin account password
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          {passwordMessage && (
+            <div
+              className={`rounded-lg border px-4 py-3 text-sm ${
+                passwordMessage.type === "success"
+                  ? "border-green-200 bg-green-50 text-green-800"
+                  : "border-red-200 bg-red-50 text-red-800"
+              }`}
+            >
+              {passwordMessage.text}
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="current_password">Current Password</Label>
+            <Input
+              id="current_password"
+              type="password"
+              placeholder="Enter your current password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="new_password">New Password</Label>
+            <Input
+              id="new_password"
+              type="password"
+              placeholder="Enter new password (min 6 characters)"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="confirm_password">Confirm New Password</Label>
+            <Input
+              id="confirm_password"
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="flex justify-end">
+        <Button type="submit" disabled={isPasswordPending}>
+          {isPasswordPending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Lock className="size-4" />
+          )}
+          {isPasswordPending ? "Updating..." : "Change Password"}
+        </Button>
+      </div>
+    </form>
+    </div>
   );
 }

@@ -308,6 +308,37 @@ export async function getPropertiesByIds(ids: string[]) {
   }
 }
 
+export async function getPropertiesForCompare(ids: string[]) {
+  try {
+    if (ids.length === 0) return [];
+
+    const properties = await prisma.property.findMany({
+      where: {
+        id: { in: ids },
+        isActive: true,
+      },
+      include: {
+        builder: {
+          select: { id: true, name: true, logoUrl: true },
+        },
+        images: {
+          orderBy: { sortOrder: "asc" },
+        },
+      },
+    });
+
+    // Preserve the order of the incoming IDs
+    const ordered = ids
+      .map((id) => properties.find((p) => p.id === id))
+      .filter(Boolean);
+
+    return ordered;
+  } catch (error) {
+    console.error("Failed to fetch properties for compare:", error);
+    return [];
+  }
+}
+
 export async function getActiveBuilders() {
   try {
     const builders = await prisma.builder.findMany({

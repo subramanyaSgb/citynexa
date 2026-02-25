@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { inquirySchema, type InquiryFormData } from "@/lib/validations/inquiry";
 import type { InquiryStatus, InquiryType } from "@/generated/prisma/client";
+import { sendInquiryNotification } from "@/lib/email";
 
 export async function submitInquiry(data: InquiryFormData) {
   try {
@@ -18,6 +19,16 @@ export async function submitInquiry(data: InquiryFormData) {
     const { name, email, phone, message, propertyId, inquiryType } =
       parsed.data;
 
+    // Fetch property title if propertyId is provided (for the email)
+    let propertyTitle: string | null = null;
+    if (propertyId) {
+      const property = await prisma.property.findUnique({
+        where: { id: propertyId },
+        select: { title: true },
+      });
+      propertyTitle = property?.title ?? null;
+    }
+
     await prisma.inquiry.create({
       data: {
         name,
@@ -29,6 +40,20 @@ export async function submitInquiry(data: InquiryFormData) {
         status: "NEW",
       },
     });
+
+    // Send email notification (non-blocking — don't fail the inquiry if email fails)
+    try {
+      await sendInquiryNotification({
+        name,
+        email,
+        phone,
+        message: message || null,
+        propertyTitle,
+        inquiryType,
+      });
+    } catch (error) {
+      console.error("[Inquiry] Email notification failed (non-blocking):", error);
+    }
 
     return { success: true as const };
   } catch (error) {

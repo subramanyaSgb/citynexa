@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export type SettingsMap = Record<string, string>;
 
@@ -10,6 +12,7 @@ const SETTINGS_KEYS = [
   "company_email",
   "company_phone",
   "company_address",
+  "notification_email",
   "facebook_url",
   "instagram_url",
   "linkedin_url",
@@ -73,6 +76,62 @@ export async function updateSettings(
     return {
       success: false,
       error: "Failed to save settings. Please try again.",
+    };
+  }
+}
+
+export type ChangePasswordResult =
+  | { success: true }
+  | { success: false; error: string };
+
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string
+): Promise<ChangePasswordResult> {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return { success: false, error: "You must be logged in." };
+    }
+
+    if (!newPassword || newPassword.length < 6) {
+      return {
+        success: false,
+        error: "New password must be at least 6 characters.",
+      };
+    }
+
+    const user = await prisma.adminUser.findUnique({
+      where: { id: session.user.id },
+    });
+
+    if (!user) {
+      return { success: false, error: "User not found." };
+    }
+
+    const isCurrentValid = await bcrypt.compare(
+      currentPassword,
+      user.passwordHash
+    );
+
+    if (!isCurrentValid) {
+      return { success: false, error: "Current password is incorrect." };
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 12);
+
+    await prisma.adminUser.update({
+      where: { id: user.id },
+      data: { passwordHash: newHash },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to change password:", error);
+    return {
+      success: false,
+      error: "Failed to change password. Please try again.",
     };
   }
 }

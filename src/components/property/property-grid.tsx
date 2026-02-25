@@ -10,6 +10,7 @@ import {
   ChevronRight,
   LayoutGrid,
   List,
+  Map,
   MapPin,
   BedDouble,
   Bath,
@@ -25,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PropertyCard } from "@/components/property/property-card";
+import { PropertyMap } from "@/components/property/property-map";
 import {
   PROPERTY_TYPE_LABELS,
   LISTING_TYPE_LABELS,
@@ -180,7 +182,7 @@ export function PropertyGrid({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list" | "map">("grid");
 
   const updateParam = useCallback(
     (key: string, value: string) => {
@@ -307,13 +309,27 @@ export function PropertyGrid({
             >
               <List className="size-4" />
             </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("map")}
+              className={`flex items-center justify-center rounded-md p-1.5 transition-colors ${
+                viewMode === "map"
+                  ? "bg-warm-50 text-navy"
+                  : "text-warm-600 hover:text-navy"
+              }`}
+              aria-label="Map view"
+            >
+              <Map className="size-4" />
+            </button>
           </div>
         </div>
       </div>
 
       {/* Properties */}
       {properties.length > 0 ? (
-        viewMode === "grid" ? (
+        viewMode === "map" ? (
+          <PropertyMap properties={properties} />
+        ) : viewMode === "grid" ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} />

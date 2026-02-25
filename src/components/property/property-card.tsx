@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Heart,
+  ArrowLeftRight,
   MapPin,
   BedDouble,
   Bath,
@@ -16,6 +17,7 @@ import {
   POSSESSION_STATUS_LABELS,
 } from "@/lib/constants";
 import { useShortlist } from "@/lib/shortlist-context";
+import { useCompare } from "@/lib/compare-context";
 import type {
   Property,
   PropertyImage,
@@ -74,7 +76,9 @@ function getPossessionStyle(status: PossessionStatus): string {
 
 export function PropertyCard({ property }: PropertyCardProps) {
   const { toggleShortlist, isShortlisted } = useShortlist();
+  const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const shortlisted = isShortlisted(property.id);
+  const inCompare = isInCompare(property.id);
   const primaryImageUrl = getPrimaryImage(property.images);
 
   return (
@@ -96,25 +100,47 @@ export function PropertyCard({ property }: PropertyCardProps) {
             </div>
           )}
 
-          {/* Save button */}
-          <button
-            type="button"
-            className="absolute top-3 right-3 z-10 flex size-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-110"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleShortlist(property.id);
-            }}
-            aria-label={shortlisted ? "Remove from shortlist" : "Save to shortlist"}
-          >
-            <Heart
-              className={`size-4 transition-colors ${
-                shortlisted
-                  ? "fill-red-500 text-red-500"
-                  : "text-warm-500 hover:text-red-500"
+          {/* Action buttons */}
+          <div className="absolute top-3 right-3 z-10 flex flex-col gap-1.5">
+            <button
+              type="button"
+              className="flex size-8 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-110"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleShortlist(property.id);
+              }}
+              aria-label={shortlisted ? "Remove from shortlist" : "Save to shortlist"}
+            >
+              <Heart
+                className={`size-4 transition-colors ${
+                  shortlisted
+                    ? "fill-red-500 text-red-500"
+                    : "text-warm-500 hover:text-red-500"
+                }`}
+              />
+            </button>
+            <button
+              type="button"
+              className={`flex size-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-all hover:scale-110 ${
+                inCompare
+                  ? "bg-copper text-white hover:bg-copper/90"
+                  : "bg-white/90 text-warm-500 hover:bg-white hover:text-copper"
               }`}
-            />
-          </button>
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (inCompare) {
+                  removeFromCompare(property.id);
+                } else {
+                  addToCompare(property.id);
+                }
+              }}
+              aria-label={inCompare ? "Remove from compare" : "Add to compare"}
+            >
+              <ArrowLeftRight className="size-4 transition-colors" />
+            </button>
+          </div>
 
           {/* Property type pill */}
           <div className="absolute bottom-3 left-3 z-10 flex gap-1.5">
