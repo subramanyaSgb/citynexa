@@ -46,7 +46,7 @@ export function Footer() {
                 alt="City Nexa"
                 width={40}
                 height={40}
-                className="size-9 rounded-md object-contain brightness-0 invert"
+                className="size-9 rounded-md bg-white object-contain p-0.5"
               />
               <span className="text-lg font-bold tracking-tight">
                 City Nexa
