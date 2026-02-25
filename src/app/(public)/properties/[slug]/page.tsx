@@ -62,7 +62,7 @@ export async function generateMetadata({
     `${property.title} - ${PROPERTY_TYPE_LABELS[property.propertyType]} ${LISTING_TYPE_LABELS[property.listingType]} in ${property.locality ? `${property.locality}, ` : ""}${property.city}`;
 
   return {
-    title: `${property.title} | Pods Realty`,
+    title: `${property.title} | City Nexa Networks`,
     description,
     openGraph: {
       title: property.title,
@@ -89,9 +89,36 @@ export default async function PropertyDetailPage({
   );
 
   const amenities = (property.amenities as string[]) || [];
+  const primaryImage = getPrimaryImageUrl(property.images);
+
+  // JSON-LD structured data
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.title,
+    description: property.description || "",
+    url: `https://citynexa.vercel.app/properties/${property.slug}`,
+    ...(primaryImage ? { image: primaryImage } : {}),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: property.locality || property.city,
+      addressRegion: property.state,
+      addressCountry: "IN",
+      ...(property.pincode ? { postalCode: property.pincode } : {}),
+    },
+    offers: {
+      "@type": "Offer",
+      price: property.priceUnit === "CRORE" ? property.price * 10000000 : property.price * 100000,
+      priceCurrency: "INR",
+    },
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Image Gallery */}
       <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
         <ImageGallery images={property.images} propertyTitle={property.title} />

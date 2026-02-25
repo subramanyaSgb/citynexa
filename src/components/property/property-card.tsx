@@ -15,6 +15,7 @@ import {
   LISTING_TYPE_LABELS,
   POSSESSION_STATUS_LABELS,
 } from "@/lib/constants";
+import { useShortlist } from "@/lib/shortlist-context";
 import type {
   Property,
   PropertyImage,
@@ -72,6 +73,8 @@ function getPossessionStyle(status: PossessionStatus): string {
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {
+  const { toggleShortlist, isShortlisted } = useShortlist();
+  const shortlisted = isShortlisted(property.id);
   const primaryImageUrl = getPrimaryImage(property.images);
 
   return (
@@ -100,10 +103,17 @@ export function PropertyCard({ property }: PropertyCardProps) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+              toggleShortlist(property.id);
             }}
-            aria-label="Save to shortlist"
+            aria-label={shortlisted ? "Remove from shortlist" : "Save to shortlist"}
           >
-            <Heart className="size-4 text-warm-500 transition-colors hover:text-red-500" />
+            <Heart
+              className={`size-4 transition-colors ${
+                shortlisted
+                  ? "fill-red-500 text-red-500"
+                  : "text-warm-500 hover:text-red-500"
+              }`}
+            />
           </button>
 
           {/* Property type pill */}

@@ -281,6 +281,33 @@ export async function getSimilarProperties(
   }
 }
 
+export async function getPropertiesByIds(ids: string[]) {
+  try {
+    if (ids.length === 0) return [];
+
+    const properties = await prisma.property.findMany({
+      where: {
+        id: { in: ids },
+        isActive: true,
+      },
+      include: {
+        builder: {
+          select: { id: true, name: true },
+        },
+        images: {
+          orderBy: { sortOrder: "asc" },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return properties;
+  } catch (error) {
+    console.error("Failed to fetch properties by IDs:", error);
+    return [];
+  }
+}
+
 export async function getActiveBuilders() {
   try {
     const builders = await prisma.builder.findMany({
