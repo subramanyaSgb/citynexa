@@ -212,6 +212,75 @@ export async function getPublicProperties(filters: PropertyFilters) {
   }
 }
 
+export async function getPropertyBySlug(slug: string) {
+  try {
+    const property = await prisma.property.findUnique({
+      where: { slug, isActive: true },
+      include: {
+        images: {
+          orderBy: { sortOrder: "asc" },
+        },
+        builder: {
+          select: {
+            id: true,
+            name: true,
+            logoUrl: true,
+            description: true,
+            websiteUrl: true,
+          },
+        },
+      },
+    });
+
+    return property;
+  } catch (error) {
+    console.error("Failed to fetch property by slug:", error);
+    return null;
+  }
+}
+
+export async function getSimilarProperties(
+  propertyId: string,
+  propertyType: string,
+  locality: string | null,
+  limit: number = 4,
+) {
+  try {
+    const orConditions: Record<string, unknown>[] = [
+      { propertyType: propertyType as PropertyType },
+    ];
+
+    if (locality) {
+      orConditions.push({
+        locality: { contains: locality, mode: "insensitive" as const },
+      });
+    }
+
+    const properties = await prisma.property.findMany({
+      where: {
+        isActive: true,
+        id: { not: propertyId },
+        OR: orConditions,
+      },
+      include: {
+        builder: {
+          select: { id: true, name: true },
+        },
+        images: {
+          orderBy: { sortOrder: "asc" },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+
+    return properties;
+  } catch (error) {
+    console.error("Failed to fetch similar properties:", error);
+    return [];
+  }
+}
+
 export async function getActiveBuilders() {
   try {
     const builders = await prisma.builder.findMany({
