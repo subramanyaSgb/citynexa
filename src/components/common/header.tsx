@@ -71,14 +71,9 @@ export function Header({ features }: HeaderProps) {
             className="size-8 rounded-md object-contain"
             priority
           />
-          <div className="flex flex-col leading-none">
-            <span className="text-[15px] font-bold tracking-tight text-navy">
-              City Nexa
-            </span>
-            <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-warm-400">
-              Networks
-            </span>
-          </div>
+          <span className="text-[15px] font-bold tracking-tight text-navy">
+            City Nexa
+          </span>
         </Link>
 
         {/* Desktop Navigation — underline active style */}

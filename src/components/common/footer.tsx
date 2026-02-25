@@ -56,14 +56,9 @@ export async function Footer() {
                 height={36}
                 className="size-8 rounded-md bg-white object-contain p-0.5"
               />
-              <div className="flex flex-col leading-none">
-                <span className="text-[15px] font-bold tracking-tight text-white">
-                  City Nexa
-                </span>
-                <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-warm-500">
-                  Networks
-                </span>
-              </div>
+              <span className="text-[15px] font-bold tracking-tight text-white">
+                City Nexa
+              </span>
             </Link>
             <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-warm-500">
               Your trusted real estate partner in Bangalore. Connecting buyers

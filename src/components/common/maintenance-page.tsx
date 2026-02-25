@@ -29,7 +29,7 @@ export function MaintenancePage({ message }: MaintenancePageProps) {
         </div>
 
         <p className="text-sm text-slate-400">
-          City Nexa Networks
+          City Nexa
         </p>
       </div>
     </div>
