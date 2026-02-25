@@ -49,7 +49,7 @@ export function BuilderPartners() {
               key={`${builder.file}-${index}`}
               className="flex shrink-0 flex-col items-center gap-2.5"
             >
-              <div className="flex h-20 w-32 items-center justify-center rounded-xl border border-warm-200 bg-white p-3 transition-all duration-300 grayscale hover:grayscale-0 hover:shadow-md hover:border-warm-300">
+              <div className="flex h-20 w-32 items-center justify-center rounded-xl border border-warm-200 bg-white p-3 transition-all duration-300 hover:shadow-md hover:border-warm-300">
                 <Image
                   src={`/images/builders/${builder.file}`}
                   alt={builder.name}
