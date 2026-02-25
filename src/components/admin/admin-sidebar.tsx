@@ -12,6 +12,7 @@ import {
   Star,
   Settings,
   LogOut,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,10 @@ const navItems = [
 export function AdminSidebar({ className }: { className?: string }) {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+
+  const allNavItems = session?.user?.role === "SUPER_ADMIN"
+    ? [...navItems, { label: "Site Control", href: "/admin/site-control", icon: Shield }]
+    : navItems;
 
   return (
     <aside
@@ -58,7 +63,7 @@ export function AdminSidebar({ className }: { className?: string }) {
       {/* Navigation */}
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="flex flex-col gap-1">
-          {navItems.map((item) => {
+          {allNavItems.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
             const Icon = item.icon;
