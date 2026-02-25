@@ -6,6 +6,7 @@ import { CompareProvider } from "@/lib/compare-context";
 import { CompareBar } from "@/components/property/compare-bar";
 import { getSetting } from "@/lib/actions/settings";
 import { MaintenancePage } from "@/components/common/maintenance-page";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 export default async function PublicLayout({
   children,
@@ -31,6 +32,8 @@ export default async function PublicLayout({
     return <MaintenancePage message={shutdownMessage || undefined} />;
   }
 
+  const features = await getFeatureFlags();
+
   return (
     <ShortlistProvider>
       <CompareProvider>
@@ -38,7 +41,9 @@ export default async function PublicLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <CompareBar />
-        <WhatsAppButton phoneNumber={whatsappPhone || "919880875721"} />
+        {features.whatsapp && (
+          <WhatsAppButton phoneNumber={whatsappPhone || "919880875721"} />
+        )}
       </CompareProvider>
     </ShortlistProvider>
   );

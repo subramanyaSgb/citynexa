@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Building2, Calendar, ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -31,6 +33,9 @@ async function getActiveBuilders() {
 }
 
 export default async function BuildersPage() {
+  const features = await getFeatureFlags();
+  if (!features.builders) redirect("/");
+
   const builders = await getActiveBuilders();
 
   return (

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock, AlertCircle } from "lucide-react";
 import { InquiryForm } from "@/components/property/inquiry-form";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 export const metadata: Metadata = {
   title: "Contact Us | City Nexa Networks",
@@ -24,7 +25,9 @@ const contactInfo = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const features = await getFeatureFlags();
+
   return (
     <>
       {/* Hero */}
@@ -86,9 +89,22 @@ export default function ContactPage() {
 
             {/* Right: Inquiry Form */}
             <div className="lg:col-span-7">
-              <div className="rounded-xl border border-warm-200 bg-warm-50 p-5 md:p-6">
-                <InquiryForm inquiryType="GENERAL" />
-              </div>
+              {features.inquiries ? (
+                <div className="rounded-xl border border-warm-200 bg-warm-50 p-5 md:p-6">
+                  <InquiryForm inquiryType="GENERAL" />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center rounded-xl border border-warm-200 bg-warm-50 p-10 text-center">
+                  <AlertCircle className="size-10 text-warm-400" />
+                  <h3 className="mt-4 font-display text-lg font-semibold text-warm-900">
+                    Inquiries Currently Disabled
+                  </h3>
+                  <p className="mt-2 max-w-sm text-sm text-warm-500">
+                    Our inquiry form is temporarily unavailable. Please check
+                    back later or reach us directly via phone or WhatsApp.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

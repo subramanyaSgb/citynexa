@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { Search } from "lucide-react";
+import { getFeatureFlags } from "@/lib/feature-flags";
 import {
   getPublicProperties,
   getActiveBuilders,
@@ -37,6 +39,9 @@ function getNumberParam(
 }
 
 export default async function PropertiesPage({ searchParams }: PageProps) {
+  const features = await getFeatureFlags();
+  if (!features.properties) redirect("/");
+
   const params = await searchParams;
 
   const filters = {

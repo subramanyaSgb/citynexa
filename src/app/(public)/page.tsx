@@ -6,6 +6,7 @@ import { WhyChooseUs } from "@/components/home/why-choose-us";
 import { StatsCounter } from "@/components/home/stats-counter";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { CTASection } from "@/components/home/cta-section";
+import { getFeatureFlags } from "@/lib/feature-flags";
 
 export const revalidate = 1800; // Revalidate every 30 minutes
 
@@ -15,15 +16,17 @@ export const metadata: Metadata = {
     "Find your dream property in Bangalore with City Nexa Networks. Zero commission for buyers, expert guidance, and trusted builder partners. Browse 500+ premium residential, commercial properties and plots.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const features = await getFeatureFlags();
+
   return (
     <>
       <HeroSection />
-      <FeaturedProperties />
-      <BuilderPartners />
+      {features.properties && <FeaturedProperties />}
+      {features.builders && <BuilderPartners />}
       <WhyChooseUs />
       <StatsCounter />
-      <TestimonialsSection />
+      {features.testimonials && <TestimonialsSection />}
       <CTASection />
     </>
   );
