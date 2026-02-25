@@ -36,7 +36,7 @@ export function HeroSection() {
           {/* Left — Content */}
           <div className="relative z-10 lg:col-span-6 xl:col-span-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-copper-dark">
-              Bangalore&apos;s Channel Partner
+              Bangalore&apos;s Trusted Real Estate Partner
             </p>
 
             <h1 className="mt-4 text-[2.5rem] font-bold leading-[1.08] tracking-tight text-warm-900 sm:text-[3.25rem] lg:text-[3.75rem]">
