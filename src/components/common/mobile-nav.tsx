@@ -32,6 +32,7 @@ interface MobileNavProps {
   onOpenChange: (open: boolean) => void;
   navLinks: { label: string; href: string }[];
   currentPath: string;
+  showShortlist?: boolean;
 }
 
 export function MobileNav({
@@ -39,6 +40,7 @@ export function MobileNav({
   onOpenChange,
   navLinks,
   currentPath,
+  showShortlist = true,
 }: MobileNavProps) {
   function isActive(href: string) {
     if (href === "/") return currentPath === "/";
@@ -92,23 +94,27 @@ export function MobileNav({
           })}
         </nav>
 
-        <Separator className="bg-warm-200" />
+        {showShortlist && (
+          <>
+            <Separator className="bg-warm-200" />
 
-        <div className="p-4">
-          <Link
-            href="/shortlist"
-            onClick={() => onOpenChange(false)}
-            className={cn(
-              "flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors",
-              currentPath === "/shortlist"
-                ? "bg-navy/10 font-medium text-navy"
-                : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
-            )}
-          >
-            <Heart className="size-5" />
-            Shortlist
-          </Link>
-        </div>
+            <div className="p-4">
+              <Link
+                href="/shortlist"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors",
+                  currentPath === "/shortlist"
+                    ? "bg-navy/10 font-medium text-navy"
+                    : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
+                )}
+              >
+                <Heart className="size-5" />
+                Shortlist
+              </Link>
+            </div>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

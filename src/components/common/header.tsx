@@ -8,6 +8,7 @@ import { Heart, Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/common/mobile-nav";
+import type { FeatureFlags } from "@/lib/feature-flags";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -17,10 +18,22 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export function Header() {
+interface HeaderProps {
+  features?: FeatureFlags;
+}
+
+export function Header({ features }: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const filteredNavLinks = navLinks.filter((link) => {
+    if (!features) return true;
+    if (link.href === "/properties" && !features.properties) return false;
+    if (link.href === "/builders" && !features.builders) return false;
+    if (link.href === "/contact" && !features.inquiries) return false;
+    return true;
+  });
 
   useEffect(() => {
     function handleScroll() {
@@ -70,7 +83,7 @@ export function Header() {
 
         {/* Desktop Navigation — underline active style */}
         <nav className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
+          {filteredNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -99,16 +112,18 @@ export function Header() {
             +91 98808 75721
           </a>
 
-          <Link href="/shortlist" className="hidden sm:block">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-9 rounded-full text-warm-500 hover:bg-warm-100 hover:text-navy"
-            >
-              <Heart className="size-[16px]" />
-              <span className="sr-only">Shortlist</span>
-            </Button>
-          </Link>
+          {(!features || features.shortlist) && (
+            <Link href="/shortlist" className="hidden sm:block">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-9 rounded-full text-warm-500 hover:bg-warm-100 hover:text-navy"
+              >
+                <Heart className="size-[16px]" />
+                <span className="sr-only">Shortlist</span>
+              </Button>
+            </Link>
+          )}
 
           {/* Mobile hamburger */}
           <Button
@@ -127,8 +142,9 @@ export function Header() {
       <MobileNav
         open={mobileNavOpen}
         onOpenChange={setMobileNavOpen}
-        navLinks={navLinks}
+        navLinks={filteredNavLinks}
         currentPath={pathname}
+        showShortlist={!features || features.shortlist !== false}
       />
     </header>
   );

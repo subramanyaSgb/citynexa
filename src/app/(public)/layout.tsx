@@ -37,7 +37,7 @@ export default async function PublicLayout({
   return (
     <ShortlistProvider>
       <CompareProvider>
-        <Header />
+        <Header features={features} />
         <main className="min-h-screen">{children}</main>
         <Footer />
         <CompareBar />
