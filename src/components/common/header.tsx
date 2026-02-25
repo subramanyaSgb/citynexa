@@ -51,11 +51,14 @@ export function Header() {
           <Image
             src="/images/citynexa-logo.jpeg"
             alt="City Nexa"
-            width={140}
+            width={40}
             height={40}
-            className="h-10 w-auto object-contain"
+            className="size-9 rounded-md object-contain"
             priority
           />
+          <span className="text-lg font-bold tracking-tight text-[#1B3A5C]">
+            City Nexa
+          </span>
         </Link>
 
         {/* Desktop Navigation */}

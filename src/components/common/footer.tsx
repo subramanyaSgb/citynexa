@@ -40,14 +40,17 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Column 1: Logo & Description */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/images/citynexa-logo.jpeg"
                 alt="City Nexa"
-                width={140}
+                width={40}
                 height={40}
-                className="h-10 w-auto rounded object-contain brightness-0 invert"
+                className="size-9 rounded-md object-contain brightness-0 invert"
               />
+              <span className="text-lg font-bold tracking-tight">
+                City Nexa
+              </span>
             </Link>
             <p className="text-sm leading-relaxed text-primary-foreground/80">
               Your trusted real estate partner in Bangalore. We help you find

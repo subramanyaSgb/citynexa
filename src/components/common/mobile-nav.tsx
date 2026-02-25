@@ -53,15 +53,18 @@ export function MobileNav({
           <Link
             href="/"
             onClick={() => onOpenChange(false)}
-            className="flex items-center"
+            className="flex items-center gap-2"
           >
             <Image
               src="/images/citynexa-logo.jpeg"
               alt="City Nexa"
-              width={140}
+              width={40}
               height={40}
-              className="h-10 w-auto object-contain"
+              className="size-9 rounded-md object-contain"
             />
+            <span className="text-lg font-bold tracking-tight text-[#1B3A5C]">
+              City Nexa
+            </span>
           </Link>
         </SheetHeader>
 

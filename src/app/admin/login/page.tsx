@@ -50,14 +50,18 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-primary px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center gap-4">
-          <div className="relative h-16 w-48">
+          <div className="flex items-center gap-3">
             <Image
               src="/images/citynexa-logo.jpeg"
               alt="City Nexa Networks"
-              fill
-              className="object-contain"
+              width={48}
+              height={48}
+              className="size-12 rounded-md object-contain"
               priority
             />
+            <span className="text-2xl font-bold tracking-tight text-[#1B3A5C]">
+              City Nexa
+            </span>
           </div>
           <CardTitle className="text-center text-xl">
             Admin Sign In
