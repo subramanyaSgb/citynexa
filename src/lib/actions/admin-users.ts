@@ -78,7 +78,7 @@ export async function createAdminUser(data: {
 
     const parsed = createAdminSchema.safeParse(data);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.errors[0].message };
+      return { success: false, error: parsed.error.issues[0].message };
     }
 
     // Check if email already exists
@@ -121,7 +121,7 @@ export async function updateAdminUser(
 
     const parsed = updateAdminSchema.safeParse(data);
     if (!parsed.success) {
-      return { success: false, error: parsed.error.errors[0].message };
+      return { success: false, error: parsed.error.issues[0].message };
     }
 
     // Check email uniqueness (exclude current user)
