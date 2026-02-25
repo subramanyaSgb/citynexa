@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Building2, Calendar, ArrowRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
+export const revalidate = 3600; // Revalidate every hour
+
 export const metadata: Metadata = {
   title: "Our Builder Partners | City Nexa Networks",
   description:

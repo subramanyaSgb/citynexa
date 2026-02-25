@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const WHATSAPP_URL =
-  "https://wa.me/91XXXXXXXXXX?text=Hi%20City%20Nexa%2C%20I%27m%20interested%20in%20properties";
-
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -19,7 +16,15 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-export function WhatsAppButton() {
+interface WhatsAppButtonProps {
+  phoneNumber?: string;
+  message?: string;
+}
+
+export function WhatsAppButton({
+  phoneNumber = "",
+  message = "Hi City Nexa, I'm interested in properties",
+}: WhatsAppButtonProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -28,20 +33,47 @@ export function WhatsAppButton() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Don't render if no phone number is provided
+  if (!phoneNumber) return null;
+
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
   return (
     <a
-      href={WHATSAPP_URL}
+      href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       className={cn(
-        "fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-green-500 text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+        "group fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-green-500/25 transition-all duration-300 hover:scale-110 hover:bg-[#20bd5a] hover:shadow-xl hover:shadow-green-500/30",
         visible
           ? "translate-y-0 opacity-100"
           : "translate-y-4 opacity-0"
       )}
     >
       <WhatsAppIcon className="size-7" />
+
+      {/* Tooltip on hover */}
+      <span className="pointer-events-none absolute right-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-warm-900 px-3 py-1.5 text-sm font-medium text-white opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
+        Chat with us
+      </span>
     </a>
+  );
+}
+
+interface PropertyWhatsAppButtonProps {
+  phoneNumber?: string;
+  propertyTitle: string;
+}
+
+export function PropertyWhatsAppButton({
+  phoneNumber = "",
+  propertyTitle,
+}: PropertyWhatsAppButtonProps) {
+  return (
+    <WhatsAppButton
+      phoneNumber={phoneNumber}
+      message={`Hi, I'm interested in ${propertyTitle}`}
+    />
   );
 }

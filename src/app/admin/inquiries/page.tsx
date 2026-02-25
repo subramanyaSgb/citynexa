@@ -18,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { InquiryActions } from "./inquiry-actions";
+import { ExportCSVButton } from "./export-csv-button";
 
 const STATUS_TABS = [
   { value: "", label: "All" },
@@ -91,13 +92,16 @@ export default async function InquiriesPage({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">
-          Inquiries
-        </h2>
-        <p className="text-muted-foreground">
-          {totalCount} inquir{totalCount !== 1 ? "ies" : "y"} total
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Inquiries
+          </h2>
+          <p className="text-muted-foreground">
+            {totalCount} inquir{totalCount !== 1 ? "ies" : "y"} total
+          </p>
+        </div>
+        <ExportCSVButton />
       </div>
 
       {/* Status Filter Tabs */}

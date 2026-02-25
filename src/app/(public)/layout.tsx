@@ -13,7 +13,7 @@ export default function PublicLayout({
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer />
-      <WhatsAppButton />
+      <WhatsAppButton phoneNumber="919876543210" />
     </ShortlistProvider>
   );
 }

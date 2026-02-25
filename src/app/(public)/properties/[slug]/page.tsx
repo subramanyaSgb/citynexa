@@ -26,6 +26,8 @@ import {
   PRICE_UNIT_LABELS,
 } from "@/lib/constants";
 
+export const revalidate = 3600; // Revalidate every hour
+
 interface PropertyDetailPageProps {
   params: Promise<{ slug: string }>;
 }

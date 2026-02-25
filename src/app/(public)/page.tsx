@@ -7,6 +7,8 @@ import { StatsCounter } from "@/components/home/stats-counter";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { CTASection } from "@/components/home/cta-section";
 
+export const revalidate = 1800; // Revalidate every 30 minutes
+
 export const metadata: Metadata = {
   title: "City Nexa Networks — Your Trusted Real Estate Partner in Bangalore",
   description:
