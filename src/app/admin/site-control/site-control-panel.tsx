@@ -3,18 +3,14 @@
 import { useState, useTransition } from "react";
 import {
   Power,
-  Clock,
   ToggleLeft,
   Save,
   Loader2,
   AlertTriangle,
   Shield,
-  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import {
   Card,
@@ -58,10 +54,6 @@ export function SiteControlPanel({ initialSettings }: SiteControlPanelProps) {
 
   function handleChange(key: string, value: string) {
     setSettings((prev) => ({ ...prev, [key]: value }));
-  }
-
-  function clearShutdownDate() {
-    setSettings((prev) => ({ ...prev, shutdown_date: "" }));
   }
 
   function handleSave() {
@@ -150,52 +142,6 @@ export function SiteControlPanel({ initialSettings }: SiteControlPanelProps) {
             value={settings.shutdown_message ?? ""}
             onChange={(e) => handleChange("shutdown_message", e.target.value)}
           />
-        </CardContent>
-      </Card>
-
-      {/* Scheduled Shutdown */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-lg bg-blue-100">
-              <Clock className="size-5 text-blue-600" />
-            </div>
-            <div>
-              <CardTitle>Scheduled Shutdown</CardTitle>
-              <CardDescription>
-                Set a date and time for the site to automatically go offline
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-end gap-3">
-            <div className="flex-1 space-y-2">
-              <Label htmlFor="shutdown_date">Shutdown Date &amp; Time</Label>
-              <Input
-                id="shutdown_date"
-                type="datetime-local"
-                value={settings.shutdown_date ?? ""}
-                onChange={(e) => handleChange("shutdown_date", e.target.value)}
-              />
-            </div>
-            {settings.shutdown_date && (
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={clearShutdownDate}
-                title="Clear scheduled shutdown"
-              >
-                <X className="size-4" />
-              </Button>
-            )}
-          </div>
-          {settings.shutdown_date && (
-            <p className="text-sm text-amber-600">
-              Site will auto-shutdown on{" "}
-              <strong>{new Date(settings.shutdown_date).toLocaleString()}</strong>
-            </p>
-          )}
         </CardContent>
       </Card>
 

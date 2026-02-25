@@ -21,7 +21,6 @@ const SETTINGS_KEYS = [
   "meta_description",
   "site_live",
   "shutdown_message",
-  "shutdown_date",
   "feature_properties",
   "feature_builders",
   "feature_shortlist",
@@ -61,7 +60,6 @@ export async function getSiteControlSettings(): Promise<SettingsMap> {
     const keys = [
       "site_live",
       "shutdown_message",
-      "shutdown_date",
       "feature_properties",
       "feature_builders",
       "feature_shortlist",
@@ -130,7 +128,6 @@ export async function updateSiteControlSettings(
     const allowedKeys = [
       "site_live",
       "shutdown_message",
-      "shutdown_date",
       "feature_properties",
       "feature_builders",
       "feature_shortlist",
