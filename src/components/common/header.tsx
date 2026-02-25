@@ -24,7 +24,7 @@ export function Header() {
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 0);
+      setScrolled(window.scrollY > 10);
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -41,50 +41,57 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-16 w-full bg-white transition-shadow duration-200",
-        scrolled && "shadow-md"
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "bg-white/90 shadow-sm backdrop-blur-md"
+          : "bg-white"
       )}
     >
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
             src="/images/citynexa-logo.jpeg"
             alt="City Nexa"
             width={40}
             height={40}
-            className="size-9 rounded-md object-contain"
+            className="size-9 rounded-lg object-contain"
             priority
           />
-          <span className="text-lg font-bold tracking-tight text-[#1B3A5C]">
+          <span className="text-xl font-bold tracking-tight text-navy">
             City Nexa
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent/10 hover:text-primary",
-                isActive(link.href)
-                  ? "font-medium text-primary"
-                  : "text-muted-foreground"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Desktop Navigation — pill style */}
+        <nav className="hidden items-center lg:flex">
+          <div className="flex items-center rounded-full border border-warm-200 bg-warm-50 p-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
+                  isActive(link.href)
+                    ? "bg-navy text-white shadow-sm"
+                    : "text-warm-700 hover:text-navy"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </nav>
 
         {/* Right side */}
         <div className="flex items-center gap-2">
-          {/* Shortlist (heart) icon */}
-          <Link href="/shortlist">
-            <Button variant="ghost" size="icon" className="relative">
-              <Heart className="size-5" />
+          <Link href="/shortlist" className="hidden sm:block">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative size-10 rounded-full text-warm-600 hover:bg-warm-100 hover:text-navy"
+            >
+              <Heart className="size-[18px]" />
               <span className="sr-only">Shortlist</span>
             </Button>
           </Link>
@@ -93,7 +100,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="size-10 rounded-full text-warm-600 hover:bg-warm-100 lg:hidden"
             onClick={() => setMobileNavOpen(true)}
           >
             <Menu className="size-5" />

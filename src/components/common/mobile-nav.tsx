@@ -53,22 +53,22 @@ export function MobileNav({
           <Link
             href="/"
             onClick={() => onOpenChange(false)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2.5"
           >
             <Image
               src="/images/citynexa-logo.jpeg"
               alt="City Nexa"
               width={40}
               height={40}
-              className="size-9 rounded-md object-contain"
+              className="size-9 rounded-lg object-contain"
             />
-            <span className="text-lg font-bold tracking-tight text-[#1B3A5C]">
+            <span className="text-lg font-bold tracking-tight text-navy">
               City Nexa
             </span>
           </Link>
         </SheetHeader>
 
-        <Separator />
+        <Separator className="bg-warm-200" />
 
         <nav className="flex flex-col gap-1 p-4">
           {navLinks.map((link) => {
@@ -79,10 +79,10 @@ export function MobileNav({
                 href={link.href}
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-colors",
+                  "flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors",
                   isActive(link.href)
-                    ? "bg-primary/10 font-medium text-primary"
-                    : "text-muted-foreground hover:bg-accent/10 hover:text-primary"
+                    ? "bg-navy/10 font-medium text-navy"
+                    : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
                 )}
               >
                 <Icon className="size-5" />
@@ -92,17 +92,17 @@ export function MobileNav({
           })}
         </nav>
 
-        <Separator />
+        <Separator className="bg-warm-200" />
 
         <div className="p-4">
           <Link
             href="/shortlist"
             onClick={() => onOpenChange(false)}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-colors",
+              "flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors",
               currentPath === "/shortlist"
-                ? "bg-primary/10 font-medium text-primary"
-                : "text-muted-foreground hover:bg-accent/10 hover:text-primary"
+                ? "bg-navy/10 font-medium text-navy"
+                : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
             )}
           >
             <Heart className="size-5" />

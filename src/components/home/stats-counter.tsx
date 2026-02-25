@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface StatItem {
   target: number;
@@ -27,8 +27,6 @@ function useCountUp(target: number, shouldStart: boolean, duration = 2000) {
       if (!startTimestamp) startTimestamp = timestamp;
       const elapsed = timestamp - startTimestamp;
       const progress = Math.min(elapsed / duration, 1);
-
-      // Ease-out quad for smooth deceleration
       const easedProgress = 1 - (1 - progress) * (1 - progress);
       setCount(Math.floor(easedProgress * target));
 
@@ -75,11 +73,11 @@ function StatCounter({ stat }: { stat: StatItem }) {
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+      <div className="font-display text-4xl font-semibold text-warm-900 md:text-5xl">
         {count}
-        {stat.suffix}
+        <span className="text-copper">{stat.suffix}</span>
       </div>
-      <p className="mt-2 text-sm font-medium text-white/70 md:text-base">
+      <p className="mt-2 text-sm font-medium text-warm-500">
         {stat.label}
       </p>
     </div>
@@ -88,7 +86,7 @@ function StatCounter({ stat }: { stat: StatItem }) {
 
 export function StatsCounter() {
   return (
-    <section className="bg-gradient-to-r from-[#1B3A5C] to-[#152d47] py-16 md:py-20">
+    <section className="border-y border-warm-200 bg-warm-50 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
           {STATS.map((stat) => (

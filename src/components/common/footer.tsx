@@ -9,7 +9,6 @@ import {
   Instagram,
   Twitter,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -34,34 +33,46 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
-      {/* Main footer content */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Column 1: Logo & Description */}
+    <footer className="bg-warm-900 text-warm-300">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Logo & Description */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2.5">
               <Image
                 src="/images/citynexa-logo.jpeg"
                 alt="City Nexa"
                 width={40}
                 height={40}
-                className="size-9 rounded-md bg-white object-contain p-0.5"
+                className="size-9 rounded-lg bg-white object-contain p-0.5"
               />
-              <span className="text-lg font-bold tracking-tight">
+              <span className="text-lg font-bold tracking-tight text-white">
                 City Nexa
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-primary-foreground/80">
+            <p className="text-sm leading-relaxed text-warm-400">
               Your trusted real estate partner in Bangalore. We help you find
               the perfect property that matches your lifestyle and investment
               goals.
             </p>
+
+            <div className="flex items-center gap-2 pt-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="flex size-9 items-center justify-center rounded-full border border-warm-700 text-warm-400 transition-all hover:border-copper hover:bg-copper/10 hover:text-copper"
+                >
+                  <social.icon className="size-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Quick Links */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-warm-500">
               Quick Links
             </h3>
             <ul className="space-y-3">
@@ -69,7 +80,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                    className="text-sm text-warm-400 transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -78,9 +89,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Property Types */}
+          {/* Property Types */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-warm-500">
               Property Types
             </h3>
             <ul className="space-y-3">
@@ -88,7 +99,7 @@ export function Footer() {
                 <li key={type.label}>
                   <Link
                     href={type.href}
-                    className="text-sm text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                    className="text-sm text-warm-400 transition-colors hover:text-white"
                   >
                     {type.label}
                   </Link>
@@ -97,60 +108,47 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Contact Info */}
+          {/* Contact Info */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider">
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-warm-500">
               Contact Us
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-primary-foreground/80">
-                <MapPin className="mt-0.5 size-4 shrink-0" />
+              <li className="flex items-start gap-3 text-sm text-warm-400">
+                <MapPin className="mt-0.5 size-4 shrink-0 text-warm-500" />
                 <span>Bangalore, Karnataka, India</span>
               </li>
               <li>
                 <a
                   href="tel:+91XXXXXXXXXX"
-                  className="flex items-center gap-3 text-sm text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                  className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
                 >
-                  <Phone className="size-4 shrink-0" />
+                  <Phone className="size-4 shrink-0 text-warm-500" />
                   <span>+91 XXXXXXXXXX</span>
                 </a>
               </li>
               <li>
                 <a
                   href="mailto:info@citynexa.com"
-                  className="flex items-center gap-3 text-sm text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                  className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
                 >
-                  <Mail className="size-4 shrink-0" />
+                  <Mail className="size-4 shrink-0 text-warm-500" />
                   <span>info@citynexa.com</span>
                 </a>
               </li>
             </ul>
-
-            {/* Social Icons */}
-            <div className="mt-6 flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="flex size-9 items-center justify-center rounded-full bg-primary-foreground/10 text-primary-foreground/80 transition-colors hover:bg-primary-foreground/20 hover:text-primary-foreground"
-                >
-                  <social.icon className="size-4" />
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <Separator className="bg-primary-foreground/20" />
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <p className="text-center text-sm text-primary-foreground/60">
-          &copy; {new Date().getFullYear()} City Nexa Networks Pvt Ltd. All
-          rights reserved.
-        </p>
+      <div className="border-t border-warm-800">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <p className="text-center text-sm text-warm-500">
+            &copy; {new Date().getFullYear()} City Nexa Networks Pvt Ltd. All
+            rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );

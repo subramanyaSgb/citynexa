@@ -4,7 +4,6 @@ import {
   Headphones,
   CircleCheck,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 
 const VALUE_PROPOSITIONS = [
   {
@@ -35,42 +34,42 @@ const VALUE_PROPOSITIONS = [
 
 export function WhyChooseUs() {
   return (
-    <section className="py-16 md:py-20 bg-background">
+    <section className="bg-white py-20 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
-            Why Choose City Nexa?
+          <p className="text-sm font-semibold uppercase tracking-widest text-copper">
+            Why City Nexa
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
+            The smarter way to find property
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            We make your property search simple, transparent, and hassle-free
+          <p className="mx-auto mt-2 max-w-lg text-warm-500">
+            Simple, transparent, and hassle-free property search
           </p>
         </div>
 
-        {/* Cards grid */}
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUE_PROPOSITIONS.map((item) => (
-            <Card
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {VALUE_PROPOSITIONS.map((item, index) => (
+            <div
               key={item.title}
-              className="border-border/60 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+              className="group relative rounded-2xl border border-warm-200 bg-warm-50 p-6 transition-all duration-300 hover:border-copper/30 hover:bg-white hover:shadow-lg hover:shadow-warm-900/5"
             >
-              <CardContent className="flex flex-col items-center gap-4 p-6">
-                {/* Icon */}
-                <div className="flex size-14 items-center justify-center rounded-full bg-[#1B3A5C]">
-                  <item.icon className="size-7 text-white" />
-                </div>
+              <div className="flex size-12 items-center justify-center rounded-xl bg-copper/10 text-copper transition-colors group-hover:bg-copper group-hover:text-white">
+                <item.icon className="size-6" />
+              </div>
 
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-foreground">
-                  {item.title}
-                </h3>
+              <h3 className="mt-5 text-lg font-semibold text-warm-900">
+                {item.title}
+              </h3>
 
-                {/* Description */}
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
-              </CardContent>
-            </Card>
+              <p className="mt-2 text-sm leading-relaxed text-warm-500">
+                {item.description}
+              </p>
+
+              <span className="absolute top-5 right-5 text-4xl font-bold text-warm-100 transition-colors group-hover:text-copper/10">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
           ))}
         </div>
       </div>

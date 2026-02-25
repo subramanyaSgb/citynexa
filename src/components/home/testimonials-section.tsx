@@ -10,19 +10,20 @@ export async function TestimonialsSection() {
   if (testimonials.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-20 bg-background">
+    <section className="bg-white py-20 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
-            What Our Customers Say
+          <p className="text-sm font-semibold uppercase tracking-widest text-copper">
+            Testimonials
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
+            What our customers say
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+          <p className="mx-auto mt-2 max-w-lg text-warm-500">
             Hear from people who found their dream property with City Nexa
           </p>
         </div>
 
-        {/* Carousel */}
         <div className="mt-12">
           <TestimonialsCarousel
             testimonials={testimonials.map((t) => ({
