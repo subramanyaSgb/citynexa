@@ -36,11 +36,11 @@ export async function Footer() {
   const settings = await getSettings();
 
   const socialLinks = [
-    { label: "Facebook", href: settings.facebook_url || "#", icon: socialIcons.facebook },
-    { label: "LinkedIn", href: settings.linkedin_url || "#", icon: socialIcons.linkedin },
-    { label: "Instagram", href: settings.instagram_url || "#", icon: socialIcons.instagram },
-    { label: "Twitter", href: settings.twitter_url || "#", icon: socialIcons.twitter },
-  ];
+    { label: "Facebook", href: settings.facebook_url, icon: socialIcons.facebook },
+    { label: "LinkedIn", href: settings.linkedin_url, icon: socialIcons.linkedin },
+    { label: "Instagram", href: settings.instagram_url, icon: socialIcons.instagram },
+    { label: "Twitter", href: settings.twitter_url, icon: socialIcons.twitter },
+  ].filter((s) => s.href);
   return (
     <footer className="bg-warm-900 text-warm-300">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -136,15 +136,17 @@ export async function Footer() {
                   <span>{settings.company_phone || "+91 XXXXXXXXXX"}</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href={`mailto:${settings.company_email || "info@citynexa.com"}`}
-                  className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
-                >
-                  <Mail className="size-4 shrink-0 text-warm-500" />
-                  <span>{settings.company_email || "info@citynexa.com"}</span>
-                </a>
-              </li>
+              {settings.company_email && (
+                <li>
+                  <a
+                    href={`mailto:${settings.company_email}`}
+                    className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
+                  >
+                    <Mail className="size-4 shrink-0 text-warm-500" />
+                    <span>{settings.company_email}</span>
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

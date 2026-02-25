@@ -16,7 +16,7 @@ export default async function PublicLayout({
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer />
-      <WhatsAppButton phoneNumber={whatsappPhone || "919876543210"} />
+      <WhatsAppButton phoneNumber={whatsappPhone || "919880875721"} />
     </ShortlistProvider>
   );
 }
