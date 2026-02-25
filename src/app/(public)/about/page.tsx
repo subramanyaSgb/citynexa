@@ -8,9 +8,6 @@ import {
   Eye,
   Compass,
   Heart,
-  Building2,
-  Users,
-  Handshake,
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -72,43 +69,38 @@ const VALUES = [
   },
 ] as const;
 
-const STATS = [
-  { value: "500+", label: "Properties Listed", icon: Building2 },
-  { value: "1000+", label: "Happy Customers", icon: Users },
-  { value: "14", label: "Builder Partners", icon: Handshake },
-] as const;
-
 export default function AboutPage() {
   return (
     <>
-      {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden bg-warm-50">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-warm-100/60 via-transparent to-copper/5" />
-        <div className="relative mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 md:py-28 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-            About Us
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-semibold text-warm-900 md:text-5xl lg:text-6xl">
-            About City Nexa Networks
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-warm-600 md:text-xl">
-            Bangalore&apos;s trusted real estate partner, connecting home buyers
-            with the city&apos;s finest builders and properties since day one.
-          </p>
+      {/* Hero */}
+      <section className="bg-warm-50 py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-copper-dark">
+              About City Nexa
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-warm-900 sm:text-4xl lg:text-5xl">
+              Bangalore&apos;s trusted real estate partner
+            </h1>
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-warm-500">
+              Connecting home buyers with the city&apos;s finest builders and
+              properties — with zero commission and end-to-end support.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* ── Our Story ── */}
-      <section className="bg-white py-20 md:py-24">
+      {/* Our Story — asymmetric layout */}
+      <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-              Our Story
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-              Built on trust, driven by expertise
-            </h2>
-            <div className="mt-6 space-y-4 text-warm-600 leading-relaxed md:text-lg">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <div className="mb-3 h-[3px] w-10 bg-copper" />
+              <h2 className="text-2xl font-bold tracking-tight text-warm-900 sm:text-3xl">
+                Our story
+              </h2>
+            </div>
+            <div className="space-y-4 text-[15px] leading-relaxed text-warm-600 lg:col-span-8">
               <p>
                 City Nexa Networks is a premier real estate channel partner in
                 Bangalore, dedicated to connecting buyers with top builders
@@ -130,40 +122,37 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── How It Works ── */}
-      <section className="border-y border-warm-200 bg-warm-50 py-20 md:py-24">
+      {/* How It Works */}
+      <section className="bg-warm-50 py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-              How It Works
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-              Three simple steps to your dream home
-            </h2>
-            <p className="mx-auto mt-2 max-w-lg text-warm-500">
-              A streamlined process designed to save you time and effort
-            </p>
-          </div>
+          <div className="mb-3 h-[3px] w-10 bg-copper" />
+          <h2 className="text-2xl font-bold tracking-tight text-warm-900 sm:text-3xl">
+            How it works
+          </h2>
+          <p className="mt-2 max-w-md text-sm text-warm-500">
+            A streamlined process designed to save you time and effort
+          </p>
 
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((item) => (
               <div
                 key={item.step}
-                className="group relative rounded-2xl border border-warm-200 bg-white p-6 transition-all duration-300 hover:border-copper/30 hover:shadow-lg hover:shadow-warm-900/5"
+                className="group rounded-xl border border-warm-200/80 bg-white p-5 transition-all duration-300 hover:border-copper/20 hover:shadow-sm"
               >
-                <span className="absolute top-5 right-5 text-4xl font-bold text-warm-100 transition-colors group-hover:text-copper/10">
-                  {item.step}
-                </span>
-
-                <div className="flex size-12 items-center justify-center rounded-xl bg-copper/10 text-copper transition-colors group-hover:bg-copper group-hover:text-white">
-                  <item.icon className="size-6" />
+                <div className="flex items-center gap-3">
+                  <div className="flex size-10 items-center justify-center rounded-lg bg-navy/5 text-navy transition-colors group-hover:bg-copper/10 group-hover:text-copper">
+                    <item.icon className="size-5" />
+                  </div>
+                  <span className="text-[11px] font-bold text-warm-300">
+                    Step {item.step}
+                  </span>
                 </div>
 
-                <h3 className="mt-5 text-lg font-semibold text-warm-900">
+                <h3 className="mt-4 text-[15px] font-semibold text-warm-900">
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-sm leading-relaxed text-warm-500">
+                <p className="mt-1.5 text-[13px] leading-relaxed text-warm-500">
                   {item.description}
                 </p>
               </div>
@@ -172,51 +161,39 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Mission & Values ── */}
-      <section className="bg-white py-20 md:py-24">
+      {/* Mission & Values — combined */}
+      <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Mission */}
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-              Our Mission
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-              Making property buying transparent and hassle-free
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-warm-600 md:text-lg leading-relaxed">
-              We are on a mission to simplify real estate for every buyer in
-              Bangalore. By partnering with verified builders and providing
-              unbiased guidance, we empower you to make the right decision with
-              complete confidence.
-            </p>
-          </div>
-
-          {/* Values */}
-          <div className="mt-16">
-            <div className="text-center">
-              <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-                Our Values
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <div className="mb-3 h-[3px] w-10 bg-copper" />
+              <h2 className="text-2xl font-bold tracking-tight text-warm-900 sm:text-3xl">
+                What we
+                <br />
+                stand for
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-warm-500">
+                We are on a mission to simplify real estate for every buyer in
+                Bangalore. By partnering with verified builders and providing
+                unbiased guidance, we empower you to make the right decision.
               </p>
-              <h3 className="mt-2 font-display text-2xl font-semibold text-warm-900 md:text-3xl">
-                What we stand for
-              </h3>
             </div>
 
-            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
               {VALUES.map((value) => (
                 <div
                   key={value.title}
-                  className="group rounded-2xl border border-warm-200 bg-warm-50 p-6 text-center transition-all duration-300 hover:border-copper/30 hover:bg-white hover:shadow-lg hover:shadow-warm-900/5"
+                  className="group rounded-xl border border-warm-200/80 bg-warm-50 p-5 transition-all duration-300 hover:border-copper/20 hover:bg-white hover:shadow-sm"
                 >
-                  <div className="mx-auto flex size-12 items-center justify-center rounded-xl bg-copper/10 text-copper transition-colors group-hover:bg-copper group-hover:text-white">
-                    <value.icon className="size-6" />
+                  <div className="flex size-10 items-center justify-center rounded-lg bg-navy/5 text-navy transition-colors group-hover:bg-copper/10 group-hover:text-copper">
+                    <value.icon className="size-5" />
                   </div>
 
-                  <h4 className="mt-5 text-lg font-semibold text-warm-900">
+                  <h4 className="mt-4 text-[15px] font-semibold text-warm-900">
                     {value.title}
                   </h4>
 
-                  <p className="mt-2 text-sm leading-relaxed text-warm-500">
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-warm-500">
                     {value.description}
                   </p>
                 </div>
@@ -226,72 +203,48 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Numbers Section ── */}
-      <section className="border-y border-warm-200 bg-warm-50 py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-              Our Impact
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-              Numbers that speak for themselves
-            </h2>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3 md:gap-12">
-            {STATS.map((stat) => (
+      {/* Stats strip */}
+      <section className="bg-navy py-12 md:py-14 grain-overlay relative">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-3 gap-8">
+            {[
+              { value: "500+", label: "Properties" },
+              { value: "1000+", label: "Happy Customers" },
+              { value: "14+", label: "Builder Partners" },
+            ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="mx-auto mb-3 flex size-14 items-center justify-center rounded-2xl bg-navy/10 text-navy">
-                  <stat.icon className="size-7" />
-                </div>
-                <div className="font-display text-4xl font-semibold text-warm-900 md:text-5xl">
-                  {stat.value.replace("+", "")}
-                  {stat.value.includes("+") && (
-                    <span className="text-copper">+</span>
-                  )}
-                </div>
-                <p className="mt-2 text-sm font-medium text-warm-500">
-                  {stat.label}
+                <p className="text-2xl font-bold text-white md:text-3xl">
+                  {stat.value}
                 </p>
+                <p className="mt-1 text-[12px] text-white/50">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="relative overflow-hidden bg-navy py-20 md:py-24">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-
-        <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-widest text-copper-light">
-            Get Started
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-white md:text-4xl">
-            Ready to find your dream property?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/60">
-            Get in touch with our team today. Expert guidance, zero commission
-            &mdash; your perfect property is just a conversation away.
-          </p>
-
-          <Button
-            asChild
-            size="lg"
-            className="mt-8 rounded-xl bg-copper px-8 text-base font-semibold text-white hover:bg-copper-dark"
-          >
-            <Link href="/contact">
-              Contact Us
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
+      {/* CTA */}
+      <section className="bg-warm-50 py-16 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-lg text-center">
+            <h2 className="text-2xl font-bold tracking-tight text-warm-900 sm:text-3xl">
+              Ready to find your
+              <br />
+              dream property?
+            </h2>
+            <p className="mt-3 text-sm text-warm-500">
+              Get in touch with our team today. Expert guidance, zero commission.
+            </p>
+            <Button
+              asChild
+              className="mt-6 rounded-lg bg-navy px-6 text-sm font-medium text-warm-50 hover:bg-navy-light"
+            >
+              <Link href="/contact">
+                Contact Us
+                <ArrowRight className="ml-1.5 size-3.5" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </>

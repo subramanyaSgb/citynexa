@@ -21,46 +21,36 @@ export function BuilderPartners() {
   const logos = [...BUILDER_LOGOS, ...BUILDER_LOGOS];
 
   return (
-    <section className="border-y border-warm-200 bg-warm-50 py-16 md:py-20">
+    <section className="bg-white py-14 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-            Trusted Partners
+        <div className="flex items-center gap-4">
+          <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.15em] text-warm-400">
+            Trusted by
           </p>
-          <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-            We work with the best
-          </h2>
-          <p className="mx-auto mt-2 max-w-lg text-warm-500">
-            14+ verified and RERA-registered builders across Bangalore
-          </p>
+          <div className="h-px flex-1 bg-warm-200/60" />
         </div>
       </div>
 
-      <div className="relative mt-12 overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-warm-50 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-warm-50 to-transparent" />
+      <div className="relative mt-8 overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-white to-transparent" />
 
         <div
-          className="flex items-center gap-10 animate-marquee"
+          className="flex items-center gap-8 animate-marquee"
           style={{ width: "max-content" }}
         >
           {logos.map((builder, index) => (
             <div
               key={`${builder.file}-${index}`}
-              className="flex shrink-0 flex-col items-center gap-2.5"
+              className="flex h-14 w-28 shrink-0 items-center justify-center rounded-lg bg-warm-50/60 px-3 transition-all duration-300 hover:bg-warm-100"
             >
-              <div className="flex h-20 w-32 items-center justify-center rounded-xl border border-warm-200 bg-white p-3 transition-all duration-300 hover:shadow-md hover:border-warm-300">
-                <Image
-                  src={`/images/builders/${builder.file}`}
-                  alt={builder.name}
-                  width={120}
-                  height={60}
-                  className="h-[60px] w-auto object-contain"
-                />
-              </div>
-              <span className="text-xs font-medium text-warm-500">
-                {builder.name}
-              </span>
+              <Image
+                src={`/images/builders/${builder.file}`}
+                alt={builder.name}
+                width={100}
+                height={48}
+                className="h-10 w-auto object-contain"
+              />
             </div>
           ))}
         </div>

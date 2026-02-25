@@ -10,47 +10,38 @@ const BULLET_POINTS = [
 
 export function CTASection() {
   return (
-    <section className="relative overflow-hidden bg-navy py-20 md:py-24">
-      {/* Subtle pattern */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
+    <section className="relative overflow-hidden bg-navy py-16 md:py-20 grain-overlay">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left column */}
           <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-copper-light">
-              Get In Touch
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-semibold text-white md:text-4xl">
-              Looking for the perfect property?
+            <div className="mb-3 h-[3px] w-10 bg-copper" />
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              Looking for the
+              <br />
+              perfect property?
             </h2>
-            <p className="mt-4 text-lg text-white/60">
+            <p className="mt-3 text-sm leading-relaxed text-white/50">
               Let our experts help you find your dream home. Fill out the form
               and we&apos;ll get in touch shortly.
             </p>
 
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-8 space-y-3">
               {BULLET_POINTS.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-copper" />
-                  <span className="text-white/80">{point}</span>
+                <li key={point} className="flex items-start gap-2.5">
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-copper" />
+                  <span className="text-sm text-white/70">{point}</span>
                 </li>
               ))}
             </ul>
 
-            <p className="mt-8 text-sm text-white/40">
-              Talk to our experts today — it&apos;s completely free!
+            <p className="mt-8 text-[11px] uppercase tracking-wider text-white/30">
+              Talk to our experts today — it&apos;s completely free
             </p>
           </div>
 
           {/* Right column — form */}
-          <div className="rounded-2xl border border-white/10 bg-white p-6 shadow-2xl md:p-8">
+          <div className="rounded-xl border border-white/8 bg-white p-5 shadow-2xl md:p-6">
             <InquiryForm inquiryType="GENERAL" />
           </div>
         </div>

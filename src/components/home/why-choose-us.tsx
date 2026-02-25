@@ -34,43 +34,45 @@ const VALUE_PROPOSITIONS = [
 
 export function WhyChooseUs() {
   return (
-    <section className="bg-white py-20 md:py-24">
+    <section className="relative bg-warm-50 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-copper">
-            Why City Nexa
-          </p>
-          <h2 className="mt-2 font-display text-3xl font-semibold text-warm-900 md:text-4xl">
-            The smarter way to find property
-          </h2>
-          <p className="mx-auto mt-2 max-w-lg text-warm-500">
-            Simple, transparent, and hassle-free property search
-          </p>
-        </div>
+        {/* Asymmetric layout: left heading + right grid */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left heading */}
+          <div className="lg:col-span-4 lg:py-4">
+            <div className="mb-3 h-[3px] w-10 bg-copper" />
+            <h2 className="text-2xl font-bold tracking-tight text-warm-900 sm:text-3xl">
+              Why work
+              <br />
+              with us?
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-warm-500">
+              Simple, transparent, and hassle-free property search — the way it
+              should be.
+            </p>
+          </div>
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUE_PROPOSITIONS.map((item, index) => (
-            <div
-              key={item.title}
-              className="group relative rounded-2xl border border-warm-200 bg-warm-50 p-6 transition-all duration-300 hover:border-copper/30 hover:bg-white hover:shadow-lg hover:shadow-warm-900/5"
-            >
-              <div className="flex size-12 items-center justify-center rounded-xl bg-copper/10 text-copper transition-colors group-hover:bg-copper group-hover:text-white">
-                <item.icon className="size-6" />
+          {/* Right — 2x2 value grid */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
+            {VALUE_PROPOSITIONS.map((item) => (
+              <div
+                key={item.title}
+                className="group rounded-xl border border-warm-200/80 bg-white p-5 transition-all duration-300 hover:border-copper/20 hover:shadow-sm"
+              >
+                <div className="flex size-10 items-center justify-center rounded-lg bg-navy/5 text-navy transition-colors duration-300 group-hover:bg-copper/10 group-hover:text-copper">
+                  <item.icon className="size-5" />
+                </div>
+
+                <h3 className="mt-4 text-[15px] font-semibold text-warm-900">
+                  {item.title}
+                </h3>
+
+                <p className="mt-1.5 text-[13px] leading-relaxed text-warm-500">
+                  {item.description}
+                </p>
               </div>
-
-              <h3 className="mt-5 text-lg font-semibold text-warm-900">
-                {item.title}
-              </h3>
-
-              <p className="mt-2 text-sm leading-relaxed text-warm-500">
-                {item.description}
-              </p>
-
-              <span className="absolute top-5 right-5 text-4xl font-bold text-warm-100 transition-colors group-hover:text-copper/10">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

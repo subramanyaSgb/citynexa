@@ -11,8 +11,8 @@ interface StatItem {
 const STATS: StatItem[] = [
   { target: 500, suffix: "+", label: "Properties Listed" },
   { target: 1000, suffix: "+", label: "Happy Customers" },
-  { target: 14, suffix: "", label: "Builder Partners" },
-  { target: 1, suffix: "", label: "City (Bangalore)" },
+  { target: 14, suffix: "+", label: "Builder Partners" },
+  { target: 0, suffix: "%", label: "Buyer Commission" },
 ];
 
 function useCountUp(target: number, shouldStart: boolean, duration = 2000) {
@@ -72,12 +72,12 @@ function StatCounter({ stat }: { stat: StatItem }) {
   const count = useCountUp(stat.target, isVisible);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="font-display text-4xl font-semibold text-warm-900 md:text-5xl">
+    <div ref={ref} className="relative py-2">
+      <div className="text-3xl font-bold tabular-nums text-white md:text-4xl">
         {count}
-        <span className="text-copper">{stat.suffix}</span>
+        <span className="text-copper-light">{stat.suffix}</span>
       </div>
-      <p className="mt-2 text-sm font-medium text-warm-500">
+      <p className="mt-1 text-[13px] text-white/50">
         {stat.label}
       </p>
     </div>
@@ -86,11 +86,16 @@ function StatCounter({ stat }: { stat: StatItem }) {
 
 export function StatsCounter() {
   return (
-    <section className="border-y border-warm-200 bg-warm-50 py-16 md:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-navy py-12 md:py-14 grain-overlay">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12">
-          {STATS.map((stat) => (
-            <StatCounter key={stat.label} stat={stat} />
+          {STATS.map((stat, i) => (
+            <div key={stat.label} className="relative">
+              <StatCounter stat={stat} />
+              {i < STATS.length - 1 && (
+                <div className="absolute right-0 top-1/2 hidden h-8 w-px -translate-y-1/2 bg-white/10 md:block" />
+              )}
+            </div>
           ))}
         </div>
       </div>

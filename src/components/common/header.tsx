@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Heart, Menu } from "lucide-react";
+import { Heart, Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/common/mobile-nav";
@@ -41,57 +41,71 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 z-50 w-full transition-all duration-500",
         scrolled
-          ? "bg-white/90 shadow-sm backdrop-blur-md"
+          ? "bg-white/95 shadow-[0_1px_0_0_rgba(232,226,216,0.8)] backdrop-blur-xl"
           : "bg-white"
       )}
     >
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src="/images/citynexa-logo.jpeg"
             alt="City Nexa"
-            width={40}
-            height={40}
-            className="size-9 rounded-lg object-contain"
+            width={36}
+            height={36}
+            className="size-8 rounded-md object-contain"
             priority
           />
-          <span className="text-xl font-bold tracking-tight text-navy">
-            City Nexa
-          </span>
+          <div className="flex flex-col leading-none">
+            <span className="text-[15px] font-bold tracking-tight text-navy">
+              City Nexa
+            </span>
+            <span className="text-[9px] font-medium uppercase tracking-[0.15em] text-warm-400">
+              Networks
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop Navigation — pill style */}
-        <nav className="hidden items-center lg:flex">
-          <div className="flex items-center rounded-full border border-warm-200 bg-warm-50 p-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
-                  isActive(link.href)
-                    ? "bg-navy text-white shadow-sm"
-                    : "text-warm-700 hover:text-navy"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        {/* Desktop Navigation — underline active style */}
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "relative px-3.5 py-2 text-[13px] font-medium transition-colors duration-200",
+                isActive(link.href)
+                  ? "text-navy"
+                  : "text-warm-500 hover:text-warm-800"
+              )}
+            >
+              {link.label}
+              {isActive(link.href) && (
+                <span className="absolute bottom-0 left-1/2 h-[2px] w-5 -translate-x-1/2 rounded-full bg-copper" />
+              )}
+            </Link>
+          ))}
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <a
+            href="tel:+919880875721"
+            className="hidden items-center gap-1.5 rounded-full border border-warm-200 px-3.5 py-1.5 text-[12px] font-medium text-warm-600 transition-colors hover:border-copper/40 hover:text-copper sm:inline-flex"
+          >
+            <Phone className="size-3" />
+            +91 98808 75721
+          </a>
+
           <Link href="/shortlist" className="hidden sm:block">
             <Button
               variant="ghost"
               size="icon"
-              className="relative size-10 rounded-full text-warm-600 hover:bg-warm-100 hover:text-navy"
+              className="size-9 rounded-full text-warm-500 hover:bg-warm-100 hover:text-navy"
             >
-              <Heart className="size-[18px]" />
+              <Heart className="size-[16px]" />
               <span className="sr-only">Shortlist</span>
             </Button>
           </Link>
@@ -100,7 +114,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-10 rounded-full text-warm-600 hover:bg-warm-100 lg:hidden"
+            className="size-9 rounded-full text-warm-600 hover:bg-warm-100 lg:hidden"
             onClick={() => setMobileNavOpen(true)}
           >
             <Menu className="size-5" />

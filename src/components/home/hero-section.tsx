@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, MapPin, Building2, Home, LandPlot } from "lucide-react";
+import { Search, ArrowRight, Home, Building2, LandPlot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -24,122 +24,139 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-warm-50">
+      {/* Subtle diagonal line decoration */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -right-32 top-0 h-[600px] w-[1px] origin-top rotate-[25deg] bg-gradient-to-b from-copper/20 via-copper/5 to-transparent" />
+        <div className="absolute -right-16 top-0 h-[400px] w-[1px] origin-top rotate-[25deg] bg-gradient-to-b from-warm-200/60 to-transparent" />
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid min-h-[85vh] items-center gap-8 py-12 lg:grid-cols-2 lg:gap-12 lg:py-0">
+        <div className="grid min-h-[88vh] items-center gap-8 py-16 lg:grid-cols-12 lg:gap-6 lg:py-0">
 
           {/* Left — Content */}
-          <div className="relative z-10 max-w-xl py-8 lg:py-20">
-            <div className="inline-flex items-center gap-2 rounded-full border border-copper/30 bg-copper/10 px-4 py-1.5 text-sm font-medium text-copper-dark">
-              <MapPin className="size-3.5" />
-              Bangalore&apos;s Trusted Real Estate Partner
-            </div>
+          <div className="relative z-10 lg:col-span-6 xl:col-span-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-copper-dark">
+              Bangalore&apos;s Channel Partner
+            </p>
 
-            <h1 className="mt-6 font-display text-[2.75rem] font-semibold leading-[1.1] tracking-tight text-warm-900 md:text-[3.5rem] lg:text-[4rem]">
-              Real estate for
+            <h1 className="mt-4 text-[2.5rem] font-bold leading-[1.08] tracking-tight text-warm-900 sm:text-[3.25rem] lg:text-[3.75rem]">
+              Find your
               <br />
-              <span className="text-navy">living</span> &{" "}
-              <span className="text-copper">investments</span>
+              next <span className="font-display italic text-navy">home</span>
             </h1>
 
-            <p className="mt-5 text-lg leading-relaxed text-warm-600 md:text-xl">
-              Zero commission for buyers. Expert guidance from our experienced
-              team of property consultants across Bangalore.
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-warm-500">
+              Zero commission for buyers. Expert guidance from our property
+              consultants across Bangalore&apos;s finest developments.
             </p>
 
             {/* Search bar */}
             <form
               onSubmit={handleSearch}
-              className="mt-8 flex items-center overflow-hidden rounded-2xl border border-warm-200 bg-white shadow-lg shadow-warm-900/5"
+              className="mt-8 flex items-center gap-2"
             >
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 size-[18px] -translate-y-1/2 text-warm-400" />
+                <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-warm-400" />
                 <Input
                   type="text"
-                  placeholder="Search by locality or project..."
+                  placeholder="Search locality, project, or builder..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="h-14 border-0 bg-transparent pl-12 pr-4 text-[15px] placeholder:text-warm-400 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+                  className="h-12 rounded-lg border-warm-200 bg-white pl-10 pr-4 text-sm placeholder:text-warm-400 focus-visible:ring-1 focus-visible:ring-copper/40 shadow-none"
                 />
               </div>
               <Button
                 type="submit"
-                className="m-1.5 h-11 rounded-xl bg-navy px-6 text-sm font-semibold text-warm-50 hover:bg-navy-light"
+                className="h-12 rounded-lg bg-navy px-5 text-sm font-medium text-warm-50 hover:bg-navy-light"
               >
                 Search
               </Button>
             </form>
 
             {/* Quick filter chips */}
-            <div className="mt-6 flex flex-wrap items-center gap-2.5">
-              <Link
-                href="/properties?propertyType=RESIDENTIAL"
-                className="group inline-flex items-center gap-1.5 rounded-full border border-warm-200 bg-white px-4 py-2 text-sm font-medium text-warm-700 transition-all hover:border-navy/30 hover:bg-navy/5 hover:text-navy"
-              >
-                <Home className="size-3.5 text-warm-400 transition-colors group-hover:text-navy" />
-                Residential
-              </Link>
-              <Link
-                href="/properties?propertyType=COMMERCIAL"
-                className="group inline-flex items-center gap-1.5 rounded-full border border-warm-200 bg-white px-4 py-2 text-sm font-medium text-warm-700 transition-all hover:border-navy/30 hover:bg-navy/5 hover:text-navy"
-              >
-                <Building2 className="size-3.5 text-warm-400 transition-colors group-hover:text-navy" />
-                Commercial
-              </Link>
-              <Link
-                href="/properties?propertyType=PLOT"
-                className="group inline-flex items-center gap-1.5 rounded-full border border-warm-200 bg-white px-4 py-2 text-sm font-medium text-warm-700 transition-all hover:border-navy/30 hover:bg-navy/5 hover:text-navy"
-              >
-                <LandPlot className="size-3.5 text-warm-400 transition-colors group-hover:text-navy" />
-                Plots
-              </Link>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <span className="text-[11px] font-medium text-warm-400">Browse:</span>
+              {[
+                { label: "Residential", href: "/properties?propertyType=RESIDENTIAL", icon: Home },
+                { label: "Commercial", href: "/properties?propertyType=COMMERCIAL", icon: Building2 },
+                { label: "Plots", href: "/properties?propertyType=PLOT", icon: LandPlot },
+              ].map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="group inline-flex items-center gap-1.5 rounded-md border border-warm-200/80 bg-white/60 px-3 py-1.5 text-[12px] font-medium text-warm-600 transition-all hover:border-warm-300 hover:bg-white hover:text-warm-800"
+                >
+                  <item.icon className="size-3 text-warm-400 transition-colors group-hover:text-copper" />
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Trust line */}
+            <div className="mt-10 flex items-center gap-6 border-t border-warm-200/60 pt-6">
+              <div>
+                <p className="text-2xl font-bold text-navy">500+</p>
+                <p className="text-[11px] text-warm-500">Listings</p>
+              </div>
+              <div className="h-8 w-px bg-warm-200" />
+              <div>
+                <p className="text-2xl font-bold text-navy">14+</p>
+                <p className="text-[11px] text-warm-500">Builders</p>
+              </div>
+              <div className="h-8 w-px bg-warm-200" />
+              <div>
+                <p className="text-2xl font-bold text-navy">0%</p>
+                <p className="text-[11px] text-warm-500">Commission</p>
+              </div>
             </div>
           </div>
 
-          {/* Right — Hero image with floating cards */}
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl">
-              <Image
-                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
-                alt="Luxury property in Bangalore"
-                fill
-                className="object-cover"
-                priority
-                sizes="50vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-warm-900/40 via-transparent to-transparent" />
-            </div>
+          {/* Right — Editorial image composition */}
+          <div className="relative hidden lg:col-span-6 lg:block xl:col-span-7">
+            <div className="relative ml-auto max-w-[540px]">
+              {/* Main image */}
+              <div className="relative aspect-[3/4] w-[75%] overflow-hidden rounded-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+                  alt="Luxury property in Bangalore"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="40vw"
+                />
+              </div>
 
-            {/* Floating property preview card */}
-            <div className="absolute -bottom-6 -left-8 w-72 rounded-2xl border border-warm-200 bg-white p-5 shadow-xl shadow-warm-900/10">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-sm text-warm-500">Featured Property</p>
-                  <p className="mt-1 font-display text-lg font-semibold text-warm-900">
-                    Golden Springfield
-                  </p>
+              {/* Secondary offset image */}
+              <div className="absolute -bottom-4 right-0 aspect-[4/3] w-[55%] overflow-hidden rounded-2xl border-4 border-warm-50 shadow-xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
+                  alt="Modern interior"
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                />
+              </div>
+
+              {/* Floating card */}
+              <div className="absolute -left-6 bottom-24 rounded-xl border border-warm-200 bg-white px-4 py-3 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-copper/10">
+                    <ArrowRight className="size-4 text-copper" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-warm-800">
+                      Ready to Move In
+                    </p>
+                    <p className="text-[11px] text-warm-500">
+                      120+ properties available
+                    </p>
+                  </div>
                 </div>
-                <span className="rounded-full bg-copper/10 px-2.5 py-1 text-xs font-semibold text-copper-dark">
-                  New
-                </span>
               </div>
-              <div className="mt-3 flex items-center gap-4 border-t border-warm-100 pt-3 text-sm text-warm-600">
-                <span className="font-semibold text-warm-900">3 BHK</span>
-                <span>1,650 sqft</span>
-                <span className="font-semibold text-copper">&#8377;85 L</span>
-              </div>
-            </div>
-
-            {/* Floating stats badge */}
-            <div className="absolute -right-4 top-8 rounded-2xl border border-warm-200 bg-white px-5 py-3 shadow-lg shadow-warm-900/10">
-              <p className="text-2xl font-bold text-navy">500+</p>
-              <p className="text-xs text-warm-500">Premium Listings</p>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Subtle background decoration */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-warm-100/50 to-transparent" />
     </section>
   );
 }
