@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { InquiryForm } from "@/components/property/inquiry-form";
 
@@ -15,13 +15,8 @@ const contactInfo = [
   },
   {
     icon: Phone,
-    label: "Phone",
-    value: "+91 XXXXXXXXXX",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "info@citynexa.com",
+    label: "Phone / WhatsApp",
+    value: "+91 98808 75721",
   },
   {
     icon: Clock,

@@ -125,15 +125,15 @@ export async function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-warm-400">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-warm-500" />
-                <span>{settings.company_address || "Bangalore, Karnataka, India"}</span>
+                <span>{settings.company_address || "Bangalore"}</span>
               </li>
               <li>
                 <a
-                  href={`tel:${settings.company_phone || "+91XXXXXXXXXX"}`}
+                  href={`tel:${settings.company_phone || "+919880875721"}`}
                   className="flex items-center gap-3 text-sm text-warm-400 transition-colors hover:text-white"
                 >
                   <Phone className="size-4 shrink-0 text-warm-500" />
-                  <span>{settings.company_phone || "+91 XXXXXXXXXX"}</span>
+                  <span>{settings.company_phone || "+91 98808 75721"}</span>
                 </a>
               </li>
               {settings.company_email && (

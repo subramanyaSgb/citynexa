@@ -72,19 +72,19 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             <Label htmlFor="whatsapp_phone">WhatsApp Number</Label>
             <Input
               id="whatsapp_phone"
-              placeholder="919876543210"
+              placeholder="919880875721"
               value={settings.whatsapp_phone ?? ""}
               onChange={(e) => handleChange("whatsapp_phone", e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              Country code + number, no spaces (e.g. 919876543210)
+              Country code + number, no spaces (e.g. 919880875721)
             </p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="company_phone">Phone Number</Label>
             <Input
               id="company_phone"
-              placeholder="+91 98765 43210"
+              placeholder="+91 98808 75721"
               value={settings.company_phone ?? ""}
               onChange={(e) => handleChange("company_phone", e.target.value)}
             />
